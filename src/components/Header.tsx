@@ -3,6 +3,8 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Menu, X, Shield, Phone } from "lucide-react"
+import Image from "next/image";
+import logo from "../assets/Logo.svg";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -21,11 +23,12 @@ export default function Header() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-2">
-            <Shield className="text-blue-600" size={32} />
-            <div>
+            {/* <Shield className="text-blue-600" size={32} /> */}
+            {/* <div>
               <h1 className="text-xl font-bold text-gray-900">WarrantyCompare</h1>
               <p className="text-xs text-gray-500">Auto Protection Experts</p>
-            </div>
+            </div> */}
+            <Image src={logo} alt="company-logo" className="h-[50px] w-fit"/>
           </div>
 
           {/* Desktop Navigation */}
