@@ -126,7 +126,8 @@ export default function Home() {
               Get instant quotes from top-rated companies.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-[rgb(67,_102,_178)] hover:bg-blue-700 text-white px-8 py-4 text-lg font-semibold"
+              <Button size="lg" className=" hover:bg-blue-700 text-white px-8 py-4 text-lg font-semibold"
+              style={{backgroundColor:"#33405d !important"}}
               // bg-blue-600
                 onClick={() => {
                 document.getElementById('quote-form')?.scrollIntoView({ behavior: 'smooth' });

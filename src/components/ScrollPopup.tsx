@@ -79,7 +79,7 @@ const ScrollPopup = () => {
           {!isSubmitted ? (
             <>
               {/* Header */}
-              <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6 rounded-t-lg">
+              <div className="bg-gradient-to-r from-[#0b1220] via-[#1d2e4a] to-[#243a5c] text-white p-6 rounded-t-lg">
                 <div className="flex items-center gap-2 mb-2">
                   <Gift className="text-yellow-300" size={24} />
                   <span className="text-sm font-semibold bg-yellow-400 text-black px-2 py-1 rounded">
