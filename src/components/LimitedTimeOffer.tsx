@@ -62,7 +62,8 @@ export default function LimitedTimeOffer() {
 
           {/* Main Headline */}
           <h2 className="text-2xl md:text-3xl font-bold mb-2 leading-tight">
-            Save <span className="text-yellow-300">$500</span> on Any Extended Warranty!
+            {/* Save <span className="text-yellow-300">$500</span> on Any Extended Warranty! */}
+            Save up to Any Extended Warranty!
           </h2>
 
           <p className="text-base md:text-lg mb-4 opacity-90">

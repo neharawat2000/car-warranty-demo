@@ -36,16 +36,16 @@ export default function Header() {
             <a href="#" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
               Compare
             </a>
-            <a href="#" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+            {/* <a href="#" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
               Reviews
             </a>
             <a href="#" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
               Articles
-            </a>
-            <a href="tel:(855) 247-3939" className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold">
+            </a> */}
+            {/* <a href="tel:(855) 247-3939" className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold">
               <Phone size={16} />
               (855) 247-3939
-            </a>
+            </a> */}
             <Button
               className="bg-blue-600 hover:bg-blue-700 text-white"
               onClick={() => {
@@ -72,16 +72,16 @@ export default function Header() {
               <a href="#" className="block text-gray-700 hover:text-blue-600 font-medium">
                 Compare
               </a>
-              <a href="#" className="block text-gray-700 hover:text-blue-600 font-medium">
+              {/* <a href="#" className="block text-gray-700 hover:text-blue-600 font-medium">
                 Reviews
               </a>
               <a href="#" className="block text-gray-700 hover:text-blue-600 font-medium">
                 Articles
-              </a>
-              <a href="tel:(855) 247-3939" className="flex items-center gap-2 text-pink-600 font-semibold">
+              </a> */}
+              {/* <a href="tel:(855) 247-3939" className="flex items-center gap-2 text-pink-600 font-semibold">
                 <Phone size={16} />
                 (855) 247-3939
-              </a>
+              </a> */}
               <Button
                 className="bg-pink-500 hover:bg-pink-600 text-white w-full"
                 onClick={() => {

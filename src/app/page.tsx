@@ -9,13 +9,19 @@ import Header from "@/components/Header"
 import ComparisonTable from "@/components/ComparisonTable"
 import LimitedTimeOffer from "@/components/LimitedTimeOffer"
 import ScrollPopup from "@/components/ScrollPopup"
+import image1 from "../assets/Logo.svg"
+import image2 from "../assets/image1.svg"
+import image3 from "../assets/image2.svg"
+import image4 from "../assets/image3.svg"
+import image5 from "../assets/image4.svg"
+import Image from "next/image"
 
 export default function Home() {
   const warrantyCompanies = [
     {
       id: 1,
-      name: "EnduraShield",
-      logo: "🛡️",
+      name: "AutoGuard",
+      logo: image1,
       rating: 9.8,
       description: "Comprehensive coverage with 24/7 roadside assistance",
       features: [
@@ -31,8 +37,8 @@ export default function Home() {
     },
     {
       id: 2,
-      name: "AutoGuard Pro",
-      logo: "🚗",
+      name: "Endurance Auto Warranty",
+      logo: image2,
       rating: 9.5,
       description: "Reliable protection with quick, customized setup",
       features: [
@@ -48,8 +54,8 @@ export default function Home() {
     },
     {
       id: 3,
-      name: "WarrantyMax",
-      logo: "🔧",
+      name: "Toco Warranty",
+      logo: image3,
       rating: 9.3,
       description: "Basic protection available for all vehicle types",
       features: [
@@ -65,8 +71,8 @@ export default function Home() {
     },
     {
       id: 4,
-      name: "Shield Motors",
-      logo: "⚡",
+      name: "Zurich Vehicle Service Contract",
+      logo: image4,
       rating: 9.1,
       description: "Flexible and affordable car warranty plans",
       features: [
@@ -82,8 +88,8 @@ export default function Home() {
     },
     {
       id: 5,
-      name: "TotalCare Auto",
-      logo: "🏆",
+      name: "CarShield",
+      logo: image5,
       rating: 8.9,
       description: "Avoid expensive surprises with full-coverage protection",
       features: [
@@ -153,12 +159,12 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div className="flex flex-col items-center">
               <Shield className="text-blue-600 mb-3" size={48} />
-              <h3 className="text-2xl font-bold text-gray-900">$2,500+</h3>
+              <h3 className="text-2xl font-bold text-gray-900">$1,500+</h3>
               <p className="text-gray-600">Average repair cost savings</p>
             </div>
             <div className="flex flex-col items-center">
               <Users className="text-blue-600 mb-3" size={48} />
-              <h3 className="text-2xl font-bold text-gray-900">500K+</h3>
+              <h3 className="text-2xl font-bold text-gray-900">50K+</h3>
               <p className="text-gray-600">Satisfied customers protected</p>
             </div>
             <div className="flex flex-col items-center">
@@ -201,10 +207,10 @@ export default function Home() {
                 <CardContent className="p-8">
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
                     {/* Ranking and Logo */}
-                    <div className="lg:col-span-2 text-center">
+                    <div className="lg:col-span-2 text-center flex flex-col items-center gap-3">
                       <div className="text-4xl font-bold text-gray-400 mb-2">{index + 1}</div>
-                      <div className="text-6xl mb-2">{company.logo}</div>
-                      <h3 className="text-xl font-bold text-gray-900">{company.name}</h3>
+                      <div className="w-fit"><Image src={company.logo} alt="company-logo" className="" height={80} width={100}/></div>
+                      <h3 className="text-lg font-bold text-gray-900">{company.name}</h3>
                     </div>
 
                     {/* Company Info */}
@@ -242,7 +248,7 @@ export default function Home() {
                       >
                         Get Free Quote
                       </Button>
-                      <Button
+                      {/* <Button
                         variant="outline"
                         className="border-blue-600 text-blue-600 hover:bg-blue-50 font-semibold py-3"
                         asChild
@@ -251,7 +257,7 @@ export default function Home() {
                           <Phone size={16} />
                           {company.phoneNumber}
                         </a>
-                      </Button>
+                      </Button> */}
                     </div>
                   </div>
                 </CardContent>

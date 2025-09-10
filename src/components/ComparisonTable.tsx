@@ -5,14 +5,20 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Check, X, Phone, Star } from "lucide-react"
 import { useState } from "react"
+import image1 from "../assets/Logo.svg"
+import image2 from "../assets/image1.svg"
+import image3 from "../assets/image2.svg"
+import image4 from "../assets/image3.svg"
+import image5 from "../assets/image4.svg"
+import Image from "next/image"
 
 const ComparisonTable = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const companies = [
     {
-      name: "EnduraShield",
-      logo: "🛡️",
+      name: "AutoGuard",
+      logo: image1,
       rating: 9.8,
       badge: "Our Top Pick",
       badgeColor: "bg-blue-600",
@@ -35,8 +41,8 @@ const ComparisonTable = () => {
       discount: "$300 OFF"
     },
     {
-      name: "AutoGuard Pro",
-      logo: "🚗",
+      name: "Endurance Auto Warranty",
+      logo: image2,
       rating: 9.5,
       badge: "Best Value",
       badgeColor: "bg-emerald-500",
@@ -59,8 +65,8 @@ const ComparisonTable = () => {
       discount: "$200 OFF"
     },
     {
-      name: "WarrantyMax",
-      logo: "🔧",
+      name: "Toco Warranty",
+      logo: image3,
       rating: 9.3,
       badge: "Most Flexible",
       badgeColor: "bg-blue-500",
@@ -83,8 +89,8 @@ const ComparisonTable = () => {
       discount: "$150 OFF"
     },
     {
-      name: "Shield Motors",
-      logo: "⚡",
+      name: "Zurich Vehicle Service Contract",
+      logo: image4,
       rating: 9.1,
       badge: "Fast Quotes",
       badgeColor: "bg-orange-500",
@@ -107,8 +113,8 @@ const ComparisonTable = () => {
       discount: "$100 OFF"
     },
     {
-      name: "TotalCare Auto",
-      logo: "🏆",
+      name: "CarShield",
+      logo: image5,
       rating: 8.9,
       badge: "Transparent",
       badgeColor: "bg-purple-500",
@@ -143,8 +149,8 @@ const ComparisonTable = () => {
     ase_certified: "ASE Certified Mechanics",
     nationwide: "Nationwide Coverage",
     transfer: "Transferable Warranty",
-    cancel_anytime: "Cancel Anytime",
-    money_back: "Money Back Guarantee"
+    cancel_anytime: "Cancel Anytime (Pro-rated Refund)",
+    money_back: "Money Back Guarantee up to 30days"
   }
 
   return (
@@ -165,9 +171,9 @@ const ComparisonTable = () => {
             <div className="grid grid-cols-6 gap-4 p-6 border-b bg-gray-50">
               <div className="font-semibold text-gray-900">Features</div>
               {companies.map((company) => (
-                <div key={company.name} className="text-center">
-                  <div className="text-3xl mb-2">{company.logo}</div>
-                  <h3 className="font-bold text-gray-900 mb-1">{company.name}</h3>
+                <div key={company.name} className="text-center flex flex-col gap-2 items-center justify-center">
+                  <div className="w-fit"><Image src={company.logo} alt="company-logo" className="" height={30} width={100}/></div>
+                  <h3 className="font-bold text-gray-900 mb-1 h-12">{company.name}</h3>
                   <Badge className={`${company.badgeColor} text-white text-xs mb-2`}>
                     {company.badge}
                   </Badge>
@@ -195,7 +201,7 @@ const ComparisonTable = () => {
                       className="w-full border-blue-600 text-blue-600 hover:bg-blue-50 text-sm py-2"
                       asChild
                     >
-                      <a href={`tel:${company.phoneNumber}`} className="flex items-center justify-center gap-1">
+                      <a href={`tel:${company.phoneNumber}`} className="flex items-center justify-center gap-2">
                         <Phone size={12} />
                         Call Now
                       </a>

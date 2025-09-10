@@ -87,7 +87,7 @@ const ScrollPopup = () => {
                   </span>
                 </div>
                 <h3 className="text-2xl font-bold mb-2">
-                  Get $750 OFF Your Auto Warranty!
+                  Get $500 OFF Your Auto Warranty!
                 </h3>
                 <p className="text-blue-100">
                   Limited spots available - secure yours now!
@@ -181,7 +181,7 @@ const ScrollPopup = () => {
                     type="submit"
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 text-lg shadow-lg"
                   >
-                    🎁 Claim My $750 Discount
+                    🎁 Claim My $500 Discount
                   </Button>
                 </form>
 
