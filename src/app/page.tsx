@@ -9,7 +9,7 @@ import Header from "@/components/Header"
 import ComparisonTable from "@/components/ComparisonTable"
 import LimitedTimeOffer from "@/components/LimitedTimeOffer"
 import ScrollPopup from "@/components/ScrollPopup"
-import image1 from "../assets/Logo.svg"
+import image1 from "../assets/autoGuardLogo.svg"
 import image2 from "../assets/image1.svg"
 import image3 from "../assets/image2.svg"
 import image4 from "../assets/image3.svg"
@@ -209,7 +209,7 @@ export default function Home() {
                     {/* Ranking and Logo */}
                     <div className="lg:col-span-2 text-center flex flex-col items-center gap-3">
                       <div className="text-4xl font-bold text-gray-400 mb-2">{index + 1}</div>
-                      <div className="w-fit"><Image src={company.logo} alt="company-logo" className="" height={company.logo===image1 ? 150 : 100} width={company.logo===image1 ? 150:100}/></div>
+                      <div className="w-fit"><Image src={company.logo} alt="company-logo" className="" height={company.logo===image1 ? 120 : 100} width={company.logo===image1 ?120:100}/></div>
                       <h3 className="text-lg font-bold text-gray-900">{company.name}</h3>
                     </div>
 
