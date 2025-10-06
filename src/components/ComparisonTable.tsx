@@ -17,7 +17,7 @@ const ComparisonTable = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const companies = [
     {
-      name: "AutoGuard",
+      name: "Auto Guard",
       logo: image1,
       rating: 9.8,
       badge: "Our Top Pick",
@@ -172,7 +172,7 @@ const ComparisonTable = () => {
               <div className="font-semibold text-gray-900">Features</div>
               {companies.map((company) => (
                 <div key={company.name} className="text-center flex flex-col gap-2 items-center justify-center">
-                  <div className="w-fit"><Image src={company.logo} alt="company-logo" className="" height={30} width={100}/></div>
+                  <div className="w-fit"><Image src={company.logo} alt="company-logo" className="" height={30} width={100} /></div>
                   <h3 className="font-bold text-gray-900 mb-1 h-12">{company.name}</h3>
                   <Badge className={`${company.badgeColor} text-white text-xs mb-2`}>
                     {company.badge}
@@ -189,7 +189,7 @@ const ComparisonTable = () => {
                   <div className="text-sm font-bold text-blue-600 mb-3">{company.discount}</div>
                   <div className="space-y-2">
                     <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm py-2"
-                     onClick={() => {
+                      onClick={() => {
                         setIsMenuOpen(false);
                         document.getElementById('quote-form')?.scrollIntoView({ behavior: 'smooth' });
                       }}

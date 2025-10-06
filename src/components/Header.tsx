@@ -5,9 +5,12 @@ import { Button } from "@/components/ui/button"
 import { Menu, X, Shield, Phone } from "lucide-react"
 import Image from "next/image";
 import logo from "../assets/Logo.svg";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const router = useRouter()
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
@@ -28,14 +31,14 @@ export default function Header() {
               <h1 className="text-xl font-bold text-gray-900">WarrantyCompare</h1>
               <p className="text-xs text-gray-500">Auto Protection Experts</p>
             </div> */}
-            <Image src={logo} alt="company-logo" className="h-[50px] w-fit"/>
+            <Image src={logo} alt="company-logo" className="h-[50px] w-fit" />
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <a href="#" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+            <Link href="/#quote-form" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
               Compare
-            </a>
+            </Link>
             {/* <a href="#" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
               Reviews
             </a>
@@ -49,6 +52,7 @@ export default function Header() {
             <Button
               className="bg-blue-600 hover:bg-blue-700 text-white"
               onClick={() => {
+                router.push('/#quote-form')
                 document.getElementById('quote-form')?.scrollIntoView({ behavior: 'smooth' });
               }}
             >
@@ -69,9 +73,9 @@ export default function Header() {
         {isMenuOpen && (
           <div className="md:hidden mt-4 py-4 border-t border-gray-200">
             <div className="space-y-4">
-              <a href="#" className="block text-gray-700 hover:text-blue-600 font-medium">
+              <Link href="/#quote-form" className="block text-gray-700 hover:text-blue-600 font-medium">
                 Compare
-              </a>
+              </Link>
               {/* <a href="#" className="block text-gray-700 hover:text-blue-600 font-medium">
                 Reviews
               </a>
@@ -86,6 +90,7 @@ export default function Header() {
                 className="bg-pink-500 hover:bg-pink-600 text-white w-full"
                 onClick={() => {
                   setIsMenuOpen(false);
+                  router.push('/#quote-form')
                   document.getElementById('quote-form')?.scrollIntoView({ behavior: 'smooth' });
                 }}
               >

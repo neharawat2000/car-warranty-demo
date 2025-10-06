@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Loader2, Shield, Star } from "lucide-react"
+import { redirect, useRouter } from "next/navigation"
 
 interface FormData {
   firstName: string
@@ -24,6 +25,596 @@ interface FormData {
   agreeToTerms: boolean
 }
 
+const make = [
+  {
+    name: "Acura",
+    models: [
+      "ADX",
+      "Integra",
+      "MDX",
+      "RDX",
+      "TLX",
+      "ZDX"
+    ]
+  },
+  {
+    name: "Alfa Romeo",
+    models: [
+      "Giulia",
+      "Stelvio",
+      "Tonale",
+      "Tonale Hybrid",
+      "Tonale Tributo Italiano"
+    ]
+  },
+  {
+    name: "Aston Martin",
+    models: [
+      "DB12",
+      "DBX",
+      "Vanquish",
+      "Vantage",
+    ]
+  },
+  {
+    name: "Audi",
+    models: [
+      "A3", "A4", "A4 allroad", "A5", "A5 Sportback", "A6",
+      "A6 allroad", "A6 Sportback e-tron", "A7", "A8 L",
+      "Q3", "Q4 e-tron", "Q4 e-tron Sportback", "Q4 Sportback e-tron",
+      "Q5", "Q5 Sportback", "Q6 e-tron", "Q6 Sportback e-tron",
+      "Q7", "Q8", "RS 3", "RS 5 Sportback", "RS 6 Avant",
+      "RS 6 Avant performance", "RS 7", "RS 7 performance",
+      "RS e-tron GT", "RS e-tron GT performance", "RS Q8",
+      "RS Q8 performance", "S e-tron GT", "S3", "S4", "S5",
+      "S5 Sportback", "S6", "S6 Sportback e-tron", "S7",
+      "S8", "SQ5", "SQ5 Sportback", "SQ6 e-tron",
+      "SQ6 Sportback e-tron", "SQ7", "SQ8"
+    ]
+  },
+  {
+    name: "Bentley",
+    models: [
+      "Bentayga",
+      "Continental",
+      "Bentayga EWB",
+      "Flying Spur"
+    ]
+  },
+  {
+    name: "BMW",
+    models: [
+      "2 Series", "3 Series", "4 Series", "5 Series", "7 Series", "8 Series",
+      "i4", "i5", "i7", "iX", "M2", "M3", "M4", "M5", "M8",
+      "X1", "X2", "X3", "X4", "X4 M", "X5", "X5 M", "X6", "X6 M",
+      "X7", "XM", "Z4"
+    ]
+  },
+  {
+    name: "Buick",
+    models: [
+      "Enclave",
+      "Encore GX",
+      "Envision",
+      "Envista",
+    ]
+  },
+  {
+    name: "Cadillac",
+    models: [
+      "CELESTIQ", "CT4", "CT4-V", "CT5", "CT5-V",
+      "Escalade", "Escalade ESV", "Escalade IQ",
+      "Escalade-V", "Escalade-V ESV", "LYRIQ",
+      "OPTIQ", "XT4", "XT5", "XT6"
+    ]
+  },
+  {
+    name: "Chevrolet",
+    models: [
+      "Blazer",
+      "Blazer EV",
+      "Colorado",
+      "Corvette",
+      "Equinox",
+      "Equinox EV",
+      "Express",
+      "Malibu",
+      "Silverado 1500",
+      "Silverado 2500HD",
+      "Silverado 3500HD",
+      "Silverado 3500HD CC",
+      "Silverado EV",
+      "Suburban",
+      "Tahoe",
+      "Trailblazer",
+      "Traverse",
+      "Trax"
+    ]
+  },
+  {
+    name: "Chrysler",
+    models: [
+      "Pacifica",
+      "Pacifica Plug-In Hybrid",
+      "Voyager"
+    ]
+  },
+  {
+    name: "Dodge",
+    models: [
+      "Charger",
+      "Durango",
+      "Hornet"
+    ]
+  },
+  {
+    name: "Ferrari",
+    models: [
+      "12Cilindri",
+      "12Cilindri Spider",
+      "296 GTB",
+      "296 GTS",
+      "Daytona SP3",
+      "Purosangue",
+      "Roma Spider",
+      "SF90 Spider",
+      "SF90 XX Spider",
+      "SF90 XX Stradale"
+    ]
+  },
+  {
+    name: "FIAT",
+    models: [
+      "500e"
+    ]
+  },
+  {
+    name: "Ford",
+    models: [
+      "Bronco",
+      "Bronco Sport",
+      "E-Series",
+      "E-Transit",
+      "Escape",
+      "Escape Hybrid",
+      "Escape Plug-In Hybrid",
+      "Expedition",
+      "Expedition MAX",
+      "Explorer",
+      "Explorer Hybrid",
+      "F-150",
+      "F-150 Lightning",
+      "F-250 Super Duty",
+      "F-350 Super Duty",
+      "F-450 Super Duty",
+      "Maverick",
+      "Mustang",
+      "Mustang Mach-E",
+      "Ranger",
+      "Transit"
+    ]
+  },
+  {
+    name: "Genesis",
+    models: [
+      "Electrified G80",
+      "Electrified GV70",
+      "G70", "G80", "G90", "GV60", "GV70", "GV80", "GV80 Coupe"
+    ]
+  },
+  {
+    name: "GMC",
+    models: [
+      "Acadia",
+      "Canyon",
+      "HUMMER EV",
+      "Savana",
+      "Sierra 1500",
+      "Sierra 2500HD",
+      "Sierra 3500HD",
+      "Sierra 3500HD CC",
+      "Sierra EV",
+      "Terrain",
+      "Yukon",
+      "Yukon XL"
+    ]
+  },
+  {
+    name: "Honda",
+    models: [
+      "Accord",
+      "Accord Hybrid",
+      "Civic",
+      "Civic Hybrid",
+      "CR-V",
+      "CR-V Fuel Cell",
+      "CR-V Hybrid",
+      "HR-V",
+      "Odyssey",
+      "Passport",
+      "Pilot",
+      "Prologue",
+      "Ridgeline"
+    ]
+  },
+  {
+    name: "Hyundai",
+    models: [
+      "ELANTRA",
+      "ELANTRA Hybrid",
+      "ELANTRA N",
+      "IONIQ 5",
+      "IONIQ 5 N",
+      "IONIQ 6",
+      "KONA",
+      "KONA Electric",
+      "NEXO",
+      "PALISADE",
+      "SANTA CRUZ",
+      "SANTA FE",
+      "SANTA FE Hybrid",
+      "SONATA",
+      "SONATA Hybrid",
+      "TUCSON",
+      "TUCSON Hybrid",
+      "TUCSON Plug-in Hybrid",
+      "VENUE"
+    ]
+  },
+  {
+    name: "Ineos",
+    models: [
+      "Grenadier",
+      "Quartermaster"
+    ]
+  },
+  {
+    name: "INFINITI",
+    models: [
+      "QX50", "QX55", "QX60", "QX80"
+    ]
+  },
+  {
+    name: "Jaguar",
+    models: [
+      "F-PACE"
+    ]
+  },
+  {
+    name: "Jeep",
+    models: [
+      "Compass",
+      "Gladiator",
+      "Grand Cherokee",
+      "Grand Cherokee L",
+      "Grand Wagoneer",
+      "Grand Wagoneer L",
+      "Wagoneer",
+      "Wagoneer L",
+      "Wagoneer S",
+      "Wrangler"
+    ]
+  },
+  {
+    name: "Karma",
+    models: [
+      "Revero"
+    ]
+  },
+  {
+    name: "Kia",
+    models: [
+      "Carnival",
+      "Carnival Hybrid",
+      "EV6",
+      "EV9",
+      "K4",
+      "K5",
+      "Niro",
+      "Niro EV",
+      "Niro Plug-In Hybrid",
+      "Seltos",
+      "Sorento",
+      "Sorento Hybrid",
+      "Sorento Plug-In Hybrid",
+      "Soul",
+      "Sportage",
+      "Sportage Hybrid",
+      "Sportage Plug-In Hybrid",
+      "Telluride"
+    ]
+  },
+  {
+    name: "Lamborghini",
+    models: [
+      "Revuelto", "Urus"
+    ]
+  },
+  {
+    name: "Land Rover",
+    models: [
+      "Defender",
+      "Discovery",
+      "Discovery Sport",
+      "Range Rover",
+      "Range Rover Evoque",
+      "Range Rover Sport",
+      "Range Rover Velar"
+    ]
+  },
+  {
+    name: "Lexus",
+    models: [
+      "ES 250",
+      "ES 300h",
+      "ES 350",
+      "GX 550",
+      "IS 300",
+      "IS 350",
+      "IS 500",
+      "LC 500",
+      "LC 500 Convertible",
+      "LC 500h",
+      "LS 500",
+      "LS 500h",
+      "LX 600",
+      "LX 700h",
+      "NX 250",
+      "NX 350",
+      "NX 350h",
+      "NX 450h+",
+      "RC 300",
+      "RC 350",
+      "RC F",
+      "RX 350",
+      "RX 350h",
+      "RX 450h+",
+      "RX 500h",
+      "RZ 300e",
+      "RZ 450e",
+      "TX 350",
+      "TX 500h",
+      "TX 550h+",
+      "UX 300h"
+    ]
+  },
+  {
+    name: "Lincoln",
+    models: [
+      "Aviator",
+      "Corsair",
+      "Nautilus",
+      "Nautilus Hybrid",
+      "Navigator",
+      "Navigator L"
+    ]
+  },
+  {
+    name: "Lotus",
+    models: [
+      "Eletre", "Emira"
+    ]
+  },
+  {
+    name: "Lucid",
+    models: [
+      "Air", "Gravity"
+    ]
+  },
+  {
+    name: "Maserati",
+    models: [
+      "GranCabrio", "GranTurismo", "Grecale", "GT2 Stradale", "MC20", "MC20 Cielo"
+    ]
+  },
+  {
+    name: "Mazda",
+    models: [
+      "CX-30",
+      "CX-5",
+      "CX-50",
+      "CX-50 Hybrid",
+      "CX-70",
+      "CX-70 PHEV",
+      "CX-70 Plug-in Hybrid",
+      "CX-90",
+      "CX-90 PHEV",
+      "CX-90 Plug-in Hybrid",
+      "Mazda3 Hatchback",
+      "Mazda3 Sedan",
+      "MX-5 Miata",
+      "MX-5 Miata RF"
+    ]
+  },
+  {
+    name: "McLaren",
+    models: [
+      "750S", "750S Spider", "Artura", "Artura Spider", "GTS"
+    ]
+  },
+  {
+    name: "Mercedes-Benz",
+    models: [
+      "AMG GT",
+      "C-Class",
+      "CLA",
+      "CLE",
+      "E-Class",
+      "EQB",
+      "EQE",
+      "EQS",
+      "eSprinter",
+      "G-Class",
+      "GLA",
+      "GLB",
+      "GLC",
+      "GLE",
+      "GLS",
+      "S-Class",
+      "SL-Class",
+      "Sprinter"
+    ]
+  },
+  {
+    name: "MINI",
+    models: [
+      "Convertible", "Countryman", "Hardtop 2 Door", "Hardtop 4 Door"
+    ]
+  },
+  {
+    name: "Mitsubishi",
+    models: [
+      "Eclipse Cross", "Outlander", "Outlander PHEV", "Outlander Sport",
+    ]
+  },
+  {
+    name: "Nissan",
+    models: [
+      "Altima",
+      "Ariya",
+      "Armada",
+      "Frontier",
+      "Kicks",
+      "Kicks Play",
+      "LEAF",
+      "Murano",
+      "Pathfinder",
+      "Rogue",
+      "Sentra",
+      "Versa",
+      "Z"
+    ]
+  },
+  {
+    name: "Polestar",
+    models: [
+      "2", "3", "4"
+    ]
+  },
+  {
+    name: "Porsche",
+    models: [
+      "718 Boxster",
+      "718 Cayman",
+      "911",
+      "Cayenne",
+      "Macan",
+      "Panamera",
+      "Taycan"
+    ]
+  },
+  {
+    name: "Ram",
+    models: [
+      "1500", "2500", "3500", "ProMaster", "ProMaster EV"
+    ]
+  },
+  {
+    name: "Rivian",
+    models: [
+      "R1S", "R1T"
+    ]
+  },
+  {
+    name: "Rolls-Royce",
+    models: [
+      "Black Badge Cullinan", "Black Badge Ghost", "Black Badge Spectre", "Cullinan", "Ghost", "Phantom", "Spectre"
+    ]
+  },
+  {
+    name: "Subaru",
+    models: [
+      "Ascent",
+      "BRZ",
+      "Crosstrek",
+      "Forester",
+      "Impreza",
+      "Legacy",
+      "Outback",
+      "Solterra",
+      "WRX"
+    ]
+  },
+  {
+    name: "Tesla",
+    models: [
+      "Cybertruck", "Model 3", "Model S", "Model X", "Model Y"
+    ]
+  },
+  {
+    name: "Toyota",
+    models: [
+      "4Runner",
+      "bZ4X",
+      "Camry",
+      "Corolla",
+      "Corolla Cross",
+      "Corolla Cross Hybrid",
+      "Corolla Hatchback",
+      "Corolla Hybrid",
+      "Crown",
+      "Crown Signia",
+      "GR Corolla",
+      "GR Supra",
+      "GR86",
+      "Grand Highlander",
+      "Grand Highlander Hybrid",
+      "Highlander",
+      "Highlander Hybrid",
+      "Land Cruiser",
+      "Mirai",
+      "Prius",
+      "Prius Plug-in Hybrid",
+      "RAV4",
+      "RAV4 Hybrid",
+      "RAV4 Plug-in Hybrid",
+      "Sequoia",
+      "Sienna",
+      "Tacoma",
+      "Tundra"
+    ]
+  },
+  {
+    name: "VinFast",
+    models: [
+      "VF8"
+    ]
+  },
+  {
+    name: "Volkswagen",
+    models: [
+      "Atlas",
+      "Atlas Cross Sport",
+      "Golf GTI",
+      "Golf R",
+      "ID. Buzz",
+      "ID.4",
+      "ID.Buzz",
+      "Jetta",
+      "Jetta GLI",
+      "Taos",
+      "Tiguan"
+    ]
+  },
+  {
+    name: "Volvo",
+    models: [
+      "EC40",
+      "EX30",
+      "EX40",
+      "EX90",
+      "S60",
+      "S90",
+      "V60",
+      "V60 Cross Country",
+      "V90 Cross Country",
+      "XC40",
+      "XC60",
+      "XC90"
+    ]
+  }
+]
+
 export default function QuoteForm() {
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
@@ -39,9 +630,19 @@ export default function QuoteForm() {
     contactTime: "",
     agreeToTerms: false
   })
+  const [makeOptions, setMakeOptions] = useState<{ value: string; label: string }[]>([])
+  const [modelOptions, setModelOptions] = useState<{ value: string; label: string }[]>([])
 
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  // const [isSubmitted, setIsSubmitted] = useState(false)
+  const router = useRouter()
+
+  useEffect(() => {
+    setMakeOptions(make.map(make => ({
+      value: make.name,
+      label: make.name
+    })))
+  }, [])
 
   const handleInputChange = (field: keyof FormData, value: string | boolean) => {
     setFormData(prev => ({
@@ -50,10 +651,25 @@ export default function QuoteForm() {
     }))
   }
 
+  const handleMakeChange = (field: keyof FormData, value: string) => {
+    handleInputChange(field, value);
+    setFormData(prev => ({
+      ...prev,
+      vehicleModel: ""
+    }));
+
+    const models = make.find(make => make.name === value)?.models;
+    if (models?.length) {
+      setModelOptions(models.map(model => ({
+        value: model,
+        label: model
+      })))
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-
     try {
       // VanillaSoft CRM integration
       const crmData = {
@@ -75,52 +691,44 @@ export default function QuoteForm() {
         ip_address: "unknown", // Would need server-side implementation for real IP
         user_agent: navigator.userAgent
       }
-
-      // For static deployment - simulate successful submission
-      // In production with a backend, this would send to your CRM
       console.log('Form submission data:', crmData)
-
-      // Simulate successful submission
-      setIsSubmitted(true)
 
       // Redirect to partner warranty sites
       setTimeout(() => {
-        // Example redirect to top warranty provider
-        window.open('https://endurancewarranty.com/lp/nat1/', '_blank')
-      }, 2000)
+        router.push('/thank-you')
+      }, 1000)
     } catch (error) {
-      console.error('Error submitting form:', error)
-      // In production, you'd want better error handling
+      console.log('Error submitting form:', error)
       alert('There was an error submitting your request. Please try again or call us directly.')
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  if (isSubmitted) {
-    return (
-      <Card className="max-w-2xl mx-auto bg-white">
-        <CardContent className="p-8 text-center">
-          <div className="flex justify-center mb-4">
-            <Shield className="text-green-500" size={64} />
-          </div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-4">Thank You!</h3>
-          <p className="text-gray-700 mb-6">
-            Your request has been submitted successfully. You'll be redirected to our top-rated warranty providers
-            to compare personalized quotes. Our partners will contact you within 15 minutes during business hours.
-          </p>
-          <div className="flex items-center justify-center gap-2 text-yellow-500 mb-4">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} className="fill-current" size={20} />
-            ))}
-          </div>
-          <p className="text-sm text-gray-600">
-            Over 95% of our customers save money on their extended warranty coverage!
-          </p>
-        </CardContent>
-      </Card>
-    )
-  }
+  // if (isSubmitted) {
+  //   return (
+  //     <Card className="max-w-2xl mx-auto bg-white">
+  //       <CardContent className="p-8 text-center">
+  //         <div className="flex justify-center mb-4">
+  //           <Shield className="text-green-500" size={64} />
+  //         </div>
+  //         <h3 className="text-2xl font-bold text-gray-900 mb-4">Thank You!</h3>
+  //         <p className="text-gray-700 mb-6">
+  //           Your request has been submitted successfully. You'll be redirected to our top-rated warranty providers
+  //           to compare personalized quotes. Our partners will contact you within 15 minutes during business hours.
+  //         </p>
+  //         <div className="flex items-center justify-center gap-2 text-yellow-500 mb-4">
+  //           {[...Array(5)].map((_, i) => (
+  //             <Star key={i} className="fill-current" size={20} />
+  //           ))}
+  //         </div>
+  //         <p className="text-sm text-gray-600">
+  //           Over 95% of our customers save money on their extended warranty coverage!
+  //         </p>
+  //       </CardContent>
+  //     </Card>
+  //   )
+  // }
 
   return (
     <Card className="max-w-2xl mx-auto bg-white">
@@ -236,27 +844,29 @@ export default function QuoteForm() {
               </div>
               <div>
                 <Label htmlFor="vehicleMake">Make*</Label>
-                <Input
-                  id="vehicleMake"
-                  type="text"
-                  value={formData.vehicleMake}
-                  onChange={(e) => handleInputChange('vehicleMake', e.target.value)}
-                  required
-                  className="mt-1"
-                  placeholder="Toyota, Ford, etc."
-                />
+                <Select value={formData.vehicleMake} onValueChange={(value) => handleMakeChange('vehicleMake', value)}>
+                  <SelectTrigger className="mt-1">
+                    <SelectValue placeholder="Make" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {makeOptions.map(make => (
+                      <SelectItem key={make.value} value={make.value}>{make.label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
               <div>
                 <Label htmlFor="vehicleModel">Model*</Label>
-                <Input
-                  id="vehicleModel"
-                  type="text"
-                  value={formData.vehicleModel}
-                  onChange={(e) => handleInputChange('vehicleModel', e.target.value)}
-                  required
-                  className="mt-1"
-                  placeholder="Camry, F-150, etc."
-                />
+                <Select value={formData.vehicleModel} onValueChange={(value) => handleInputChange('vehicleModel', value)}>
+                  <SelectTrigger className="mt-1">
+                    <SelectValue placeholder="Model" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {modelOptions.map(model => (
+                      <SelectItem key={model.value} value={model.value}>{model.label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 

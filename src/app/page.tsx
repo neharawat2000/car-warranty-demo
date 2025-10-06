@@ -20,7 +20,7 @@ export default function Home() {
   const warrantyCompanies = [
     {
       id: 1,
-      name: "AutoGuard",
+      name: "Auto Guard",
       logo: image1,
       rating: 9.8,
       description: "Comprehensive coverage with 24/7 roadside assistance",
@@ -133,11 +133,11 @@ export default function Home() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className=" hover:bg-blue-700 text-white px-8 py-4 text-lg font-semibold"
-              style={{backgroundColor:"#33405d !important"}}
-              // bg-blue-600
+                style={{ backgroundColor: "#33405d !important" }}
+                // bg-blue-600
                 onClick={() => {
-                document.getElementById('quote-form')?.scrollIntoView({ behavior: 'smooth' });
-              }}
+                  document.getElementById('quote-form')?.scrollIntoView({ behavior: 'smooth' });
+                }}
               >
                 Get Free Quotes Now
               </Button>
@@ -154,7 +154,7 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-12 bg-white">
+      <section className="py-14 bg-white">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div className="flex flex-col items-center">
@@ -177,10 +177,10 @@ export default function Home() {
       </section>
 
       {/* Limited Time Offer Section */}
-      <LimitedTimeOffer />
+      {/* <LimitedTimeOffer /> */}
 
       {/* Main Comparison Section */}
-      <section className="py-16">
+      <section className="pb-16 pt-6">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -193,7 +193,7 @@ export default function Home() {
           </div>
 
           {/* Warranty Company Cards */}
-          <div className="space-y-6">
+          <div className="space-y-6 w-[80%] mx-auto">
             {warrantyCompanies.map((company, index) => (
               <Card key={company.id} className={`relative overflow-hidden ${company.color} border-2 hover:shadow-lg transition-shadow`}>
                 {company.badge && (
@@ -209,7 +209,7 @@ export default function Home() {
                     {/* Ranking and Logo */}
                     <div className="lg:col-span-2 text-center flex flex-col items-center gap-3">
                       <div className="text-4xl font-bold text-gray-400 mb-2">{index + 1}</div>
-                      <div className="w-fit"><Image src={company.logo} alt="company-logo" className="" height={company.logo===image1 ? 120 : 100} width={company.logo===image1 ?120:100}/></div>
+                      <div className="w-fit"><Image src={company.logo} alt="company-logo" className="" height={company.logo === image1 ? 120 : 100} width={company.logo === image1 ? 120 : 100} /></div>
                       <h3 className="text-lg font-bold text-gray-900">{company.name}</h3>
                     </div>
 
