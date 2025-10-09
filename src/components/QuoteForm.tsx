@@ -937,8 +937,7 @@ export default function QuoteForm() {
           </Button>
 
           <p className="text-xs text-gray-500 text-center mt-4">
-            Your information is secure and will not be sold to third parties.
-            By submitting this form, you may be contacted by phone, email, or text.
+            By submitting a quote request, you agree that Top 10 Auto Warranty and/or its partners may call, text or email you about the products and services regarding auto warranties at the number provided, even if on a "do not call" list, using either pre-recorded messages or automated means. Msg and data rates may apply.
           </p>
         </form>
       </CardContent>

@@ -15,6 +15,7 @@ import image3 from "../assets/image2.svg"
 import image4 from "../assets/image3.svg"
 import image5 from "../assets/image4.svg"
 import Image from "next/image"
+import GoogleAnalytics from "@/components/GoogleAnalytics"
 
 export default function Home() {
   const warrantyCompanies = [
@@ -107,6 +108,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <GoogleAnalytics />
       <Header />
 
       {/* Hero Section */}
@@ -118,7 +120,7 @@ export default function Home() {
             backgroundImage: "url('https://letacars.com/_ipx/f_webp&s_600x600/images/leta-cars-happy-customer-driving-summer.png')"
           }}
         ></div> */}
-        <div className="container mx-auto relative z-20 px-20 ">
+        <div className="container mx-auto relative z-20 px-6 md:px-20 ">
           <div className="max-w-4xl">
             <div className="flex items-center gap-2 mb-4">
               <Clock className="text-blue-400" size={20} />
@@ -143,7 +145,7 @@ export default function Home() {
               </Button>
               <Button variant="outline" size="lg" className="bg-white/10 border-white text-white hover:bg-white/20 px-8 py-4 text-lg"
                 onClick={() => {
-                  document.getElementById('quote-form')?.scrollIntoView({ behavior: 'smooth' });
+                  document.getElementById('comparison-table')?.scrollIntoView({ behavior: 'smooth' });
                 }}
               >
                 Compare Plans
@@ -253,7 +255,7 @@ export default function Home() {
                         className="border-blue-600 text-blue-600 hover:bg-blue-50 font-semibold py-3"
                         asChild
                       >
-                        <a href={`tel:${company.phoneNumber}`} className="flex items-center justify-center gap-2">
+                      <a href={`tel:${company.phoneNumber}`} className="flex items-center justify-center gap-2">
                           <Phone size={16} />
                           {company.phoneNumber}
                         </a>

@@ -36,7 +36,7 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="/#quote-form" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+            <Link href="/#comparison-table" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
               Compare
             </Link>
             {/* <a href="#" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
@@ -73,7 +73,7 @@ export default function Header() {
         {isMenuOpen && (
           <div className="md:hidden mt-4 py-4 border-t border-gray-200">
             <div className="space-y-4">
-              <Link href="/#quote-form" className="block text-gray-700 hover:text-blue-600 font-medium">
+              <Link href="/#comparison-table" className="block text-gray-700 hover:text-blue-600 font-medium">
                 Compare
               </Link>
               {/* <a href="#" className="block text-gray-700 hover:text-blue-600 font-medium">

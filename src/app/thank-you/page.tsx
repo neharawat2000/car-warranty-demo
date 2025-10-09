@@ -1,10 +1,17 @@
+"use client";
+
 import { Card, CardContent } from "@/components/ui/card"
 import { Shield, Star } from "lucide-react"
+import GoogleAnalytics from "@/components/GoogleAnalytics"
+import Conversion from "@/components/Conversion";
 
+export const dynamic = 'force-dynamic';
 
 const ThankYouPage = () => {
     return (
         <div className="flex justify-center items-center h-[70%]">
+            <GoogleAnalytics />
+            <Conversion />
             <Card className="max-w-2xl mx-auto bg-white">
                 <CardContent className="p-8 text-center">
                     <div className="flex justify-center my-4">
