@@ -365,7 +365,7 @@ export default function Home() {
       </footer>
 
       {/* Scroll-triggered Popup */}
-      <ScrollPopup />
+      {/* <ScrollPopup /> */}
     </div>
   )
 }
