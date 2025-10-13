@@ -20,8 +20,6 @@ interface FormData {
   vehicleMake: string
   vehicleModel: string
   mileage: string
-  currentWarranty: string
-  contactTime: string
   agreeToTerms: boolean
 }
 
@@ -616,7 +614,7 @@ const make = [
 ]
 
 export default function QuoteForm() {
-  const [formData, setFormData] = useState<FormData>({
+  const [newFormData, setNewFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
     email: "",
@@ -626,8 +624,6 @@ export default function QuoteForm() {
     vehicleMake: "",
     vehicleModel: "",
     mileage: "",
-    currentWarranty: "",
-    contactTime: "",
     agreeToTerms: false
   })
   const [makeOptions, setMakeOptions] = useState<{ value: string; label: string }[]>([])
@@ -645,7 +641,7 @@ export default function QuoteForm() {
   }, [])
 
   const handleInputChange = (field: keyof FormData, value: string | boolean) => {
-    setFormData(prev => ({
+    setNewFormData(prev => ({
       ...prev,
       [field]: value
     }))
@@ -653,7 +649,7 @@ export default function QuoteForm() {
 
   const handleMakeChange = (field: keyof FormData, value: string) => {
     handleInputChange(field, value);
-    setFormData(prev => ({
+    setNewFormData(prev => ({
       ...prev,
       vehicleModel: ""
     }));
@@ -668,35 +664,88 @@ export default function QuoteForm() {
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    try {
-      // VanillaSoft CRM integration
-      const crmData = {
-        // Map form data to VanillaSoft fields
-        first_name: formData.firstName,
-        last_name: formData.lastName,
-        email: formData.email,
-        phone: formData.phone,
-        zip_code: formData.zipCode,
-        vehicle_year: formData.vehicleYear,
-        vehicle_make: formData.vehicleMake,
-        vehicle_model: formData.vehicleModel,
-        mileage: formData.mileage,
-        current_warranty: formData.currentWarranty,
-        preferred_contact_time: formData.contactTime,
-        source: "Auto Warranty Comparison Site",
-        campaign: "Extended Warranty Lead",
-        timestamp: new Date().toISOString(),
-        ip_address: "unknown", // Would need server-side implementation for real IP
-        user_agent: navigator.userAgent
-      }
-      console.log('Form submission data:', crmData)
+    e.preventDefault();
+    setIsSubmitting(true);
 
-      // Redirect to partner warranty sites
-      setTimeout(() => {
-        router.push('/thank-you')
-      }, 1000)
+    try {
+      // Prepare form data for both API and form submission
+      const formData = {
+        firstName: newFormData.firstName,
+        lastName: newFormData.lastName,
+        email: newFormData.email,
+        phone: newFormData.phone,
+        zipCode: newFormData.zipCode,
+        vehicleYear: newFormData.vehicleYear,
+        vehicleMake: newFormData.vehicleMake,
+        vehicleModel: newFormData.vehicleModel,
+        vehicleMileage: newFormData.mileage,
+        source: "Auto Warranty Comparison Site",
+        timestamp: new Date().toISOString(),
+        ip_address: "unknown",
+        user_agent: navigator.userAgent
+      };
+
+      // Submit to our API
+      const apiPromise = fetch('/api/submit-lead', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      // Create hidden iframe for form submission
+      const iframe = document.createElement('iframe');
+      iframe.name = 'hidden-iframe';
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+
+      // Create hidden form for external submission
+      const form = document.createElement('form');
+      form.method = 'post';
+      form.action = 'https://s2.vanillasoft.net/web/post.aspx?id=1006062';
+      form.target = 'hidden-iframe';
+      form.style.display = 'none';
+      form.acceptCharset = 'UTF-8';
+
+      // Helper function to add hidden input
+      const addHiddenInput = (name: string, value: string) => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = value;
+        form.appendChild(input);
+      };
+
+      // Add form fields
+      addHiddenInput('firstName', formData.firstName);
+      addHiddenInput('lastName', formData.lastName);
+      addHiddenInput('email', formData.email);
+      addHiddenInput('phone', formData.phone);
+      addHiddenInput('zipCode', formData.zipCode);
+      addHiddenInput('vehicleYear', formData.vehicleYear);
+      addHiddenInput('vehicleMake', formData.vehicleMake);
+      addHiddenInput('vehicleModel', formData.vehicleModel);
+      addHiddenInput('vehicleMileage', formData.vehicleMileage);
+      addHiddenInput('timestamp', formData.timestamp);
+
+      // Add form to document and submit
+      document.body.appendChild(form);
+      form.submit();
+
+      // Wait for both API call and form submission to complete
+      const response = await apiPromise;
+      const responseData = await response.json();
+      console.log('API Response:', responseData);
+
+      // Clean up
+      document.body.removeChild(form);
+      document.body.removeChild(iframe);
+
+      // Redirect to thank you page
+      if (response.ok) {
+        router.push('/thank-you');
+      }
     } catch (error) {
       console.log('Error submitting form:', error)
       alert('There was an error submitting your request. Please try again or call us directly.')
@@ -743,95 +792,14 @@ export default function QuoteForm() {
 
       <CardContent className="p-6">
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Personal Information */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="firstName">First Name*</Label>
-              <Input
-                id="firstName"
-                type="text"
-                value={formData.firstName}
-                onChange={(e) => handleInputChange('firstName', e.target.value)}
-                required
-                className="mt-1"
-              />
-            </div>
-            <div>
-              <Label htmlFor="lastName">Last Name*</Label>
-              <Input
-                id="lastName"
-                type="text"
-                value={formData.lastName}
-                onChange={(e) => handleInputChange('lastName', e.target.value)}
-                required
-                className="mt-1"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="email">Email Address*</Label>
-              <Input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => handleInputChange('email', e.target.value)}
-                required
-                className="mt-1"
-              />
-            </div>
-            <div>
-              <Label htmlFor="phone">Phone Number*</Label>
-              <Input
-                id="phone"
-                type="tel"
-                value={formData.phone}
-                onChange={(e) => handleInputChange('phone', e.target.value)}
-                required
-                className="mt-1"
-                placeholder="(555) 123-4567"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="zipCode">ZIP Code*</Label>
-              <Input
-                id="zipCode"
-                type="text"
-                value={formData.zipCode}
-                onChange={(e) => handleInputChange('zipCode', e.target.value)}
-                required
-                className="mt-1"
-                placeholder="12345"
-              />
-            </div>
-            <div>
-              <Label htmlFor="contactTime">Best Time to Call</Label>
-              <Select value={formData.contactTime} onValueChange={(value) => handleInputChange('contactTime', value)}>
-                <SelectTrigger className="mt-1">
-                  <SelectValue placeholder="Select time" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="morning">Morning (8AM - 12PM)</SelectItem>
-                  <SelectItem value="afternoon">Afternoon (12PM - 5PM)</SelectItem>
-                  <SelectItem value="evening">Evening (5PM - 8PM)</SelectItem>
-                  <SelectItem value="anytime">Anytime</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
           {/* Vehicle Information */}
-          <div className="border-t pt-4 mt-6">
+          <div className="pt-4">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Vehicle Information</h3>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <Label htmlFor="vehicleYear">Year*</Label>
-                <Select value={formData.vehicleYear} onValueChange={(value) => handleInputChange('vehicleYear', value)}>
+                <Select value={newFormData.vehicleYear} onValueChange={(value) => handleInputChange('vehicleYear', value)}>
                   <SelectTrigger className="mt-1">
                     <SelectValue placeholder="Year" />
                   </SelectTrigger>
@@ -844,7 +812,7 @@ export default function QuoteForm() {
               </div>
               <div>
                 <Label htmlFor="vehicleMake">Make*</Label>
-                <Select value={formData.vehicleMake} onValueChange={(value) => handleMakeChange('vehicleMake', value)}>
+                <Select value={newFormData.vehicleMake} onValueChange={(value) => handleMakeChange('vehicleMake', value)}>
                   <SelectTrigger className="mt-1">
                     <SelectValue placeholder="Make" />
                   </SelectTrigger>
@@ -857,7 +825,7 @@ export default function QuoteForm() {
               </div>
               <div>
                 <Label htmlFor="vehicleModel">Model*</Label>
-                <Select value={formData.vehicleModel} onValueChange={(value) => handleInputChange('vehicleModel', value)}>
+                <Select value={newFormData.vehicleModel} onValueChange={(value) => handleInputChange('vehicleModel', value)}>
                   <SelectTrigger className="mt-1">
                     <SelectValue placeholder="Model" />
                   </SelectTrigger>
@@ -873,7 +841,7 @@ export default function QuoteForm() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
               <div>
                 <Label htmlFor="mileage">Current Mileage*</Label>
-                <Select value={formData.mileage} onValueChange={(value) => handleInputChange('mileage', value)}>
+                <Select value={newFormData.mileage} onValueChange={(value) => handleInputChange('mileage', value)}>
                   <SelectTrigger className="mt-1">
                     <SelectValue placeholder="Select mileage" />
                   </SelectTrigger>
@@ -888,6 +856,18 @@ export default function QuoteForm() {
                 </Select>
               </div>
               <div>
+                <Label htmlFor="zipCode">ZIP Code*</Label>
+                <Input
+                  id="zipCode"
+                  type="text"
+                  value={newFormData.zipCode}
+                  onChange={(e) => handleInputChange('zipCode', e.target.value)}
+                  required
+                  className="mt-1"
+                  placeholder="12345"
+                />
+              </div>
+              {/* <div>
                 <Label htmlFor="currentWarranty">Current Warranty Status</Label>
                 <Select value={formData.currentWarranty} onValueChange={(value) => handleInputChange('currentWarranty', value)}>
                   <SelectTrigger className="mt-1">
@@ -901,15 +881,85 @@ export default function QuoteForm() {
                     <SelectItem value="unsure">Not Sure</SelectItem>
                   </SelectContent>
                 </Select>
-              </div>
+              </div> */}
             </div>
+          </div>
+
+          {/* Personal Information */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="firstName">First Name*</Label>
+              <Input
+                id="firstName"
+                type="text"
+                value={newFormData.firstName}
+                onChange={(e) => handleInputChange('firstName', e.target.value)}
+                required
+                className="mt-1"
+              />
+            </div>
+            <div>
+              <Label htmlFor="lastName">Last Name*</Label>
+              <Input
+                id="lastName"
+                type="text"
+                value={newFormData.lastName}
+                onChange={(e) => handleInputChange('lastName', e.target.value)}
+                required
+                className="mt-1"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="email">Email Address*</Label>
+              <Input
+                id="email"
+                type="email"
+                value={newFormData.email}
+                onChange={(e) => handleInputChange('email', e.target.value)}
+                required
+                className="mt-1"
+              />
+            </div>
+            <div>
+              <Label htmlFor="phone">Phone Number*</Label>
+              <Input
+                id="phone"
+                type="tel"
+                value={newFormData.phone}
+                onChange={(e) => handleInputChange('phone', e.target.value)}
+                required
+                className="mt-1"
+                placeholder="(555) 123-4567"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+            {/* <div>
+              <Label htmlFor="contactTime">Best Time to Call</Label>
+              <Select value={formData.contactTime} onValueChange={(value) => handleInputChange('contactTime', value)}>
+                <SelectTrigger className="mt-1">
+                  <SelectValue placeholder="Select time" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="morning">Morning (8AM - 12PM)</SelectItem>
+                  <SelectItem value="afternoon">Afternoon (12PM - 5PM)</SelectItem>
+                  <SelectItem value="evening">Evening (5PM - 8PM)</SelectItem>
+                  <SelectItem value="anytime">Anytime</SelectItem>
+                </SelectContent>
+              </Select>
+            </div> */}
           </div>
 
           {/* Terms and Conditions */}
           <div className="flex items-start space-x-2 pt-4">
             <Checkbox
               id="agreeToTerms"
-              checked={formData.agreeToTerms}
+              checked={newFormData.agreeToTerms}
               onCheckedChange={(checked) => handleInputChange('agreeToTerms', checked as boolean)}
               required
             />
@@ -924,7 +974,7 @@ export default function QuoteForm() {
           <Button
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 text-lg font-semibold mt-6"
-            disabled={isSubmitting || !formData.agreeToTerms}
+            disabled={isSubmitting || !newFormData.agreeToTerms}
           >
             {isSubmitting ? (
               <>
