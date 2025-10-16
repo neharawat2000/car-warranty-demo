@@ -14,6 +14,7 @@ import image2 from "../assets/image1.svg"
 import image3 from "../assets/image2.svg"
 import image4 from "../assets/image3.svg"
 import image5 from "../assets/image4.svg"
+import image6 from "../assets/ChaizLogo.svg"
 import Image from "next/image"
 import GoogleAnalytics from "@/components/GoogleAnalytics"
 
@@ -89,15 +90,14 @@ export default function Home() {
     },
     {
       id: 5,
-      name: "CarShield",
-      logo: image5,
-      rating: 8.9,
-      description: "Avoid expensive surprises with full-coverage protection",
+      name: "Chaiz",
+      logo: image6,
+      rating: 6.8,
+      description: "Compare and Find Vehicle Service Contracts",
       features: [
-        "Comprehensive protection",
-        "No surprise charges",
-        "Transparent pricing",
-        "Extended coverage options"
+        "Compare multiple providers in seconds",
+        "Buy 100% online",
+        "30 Days money-back guarantee",
       ],
       phoneNumber: "(866) 555-0198",
       badge: "Transparent",
@@ -124,7 +124,7 @@ export default function Home() {
           <div className="max-w-4xl">
             <div className="flex items-center gap-2 mb-4">
               <Clock className="text-blue-400" size={20} />
-              <span className="text-blue-400 font-medium">Last Updated: September 2025</span>
+              <span className="text-blue-400 font-medium">Last Updated: October 16, 2025</span>
             </div>
             <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
               The Top <span className="text-blue-400">Auto Warranty</span> Companies of 2025

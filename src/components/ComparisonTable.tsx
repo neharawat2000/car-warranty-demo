@@ -10,6 +10,7 @@ import image2 from "../assets/image1.svg"
 import image3 from "../assets/image2.svg"
 import image4 from "../assets/image3.svg"
 import image5 from "../assets/image4.svg"
+import image6 from "../assets/ChaizLogo.svg"
 import Image from "next/image"
 
 const ComparisonTable = () => {
@@ -113,9 +114,9 @@ const ComparisonTable = () => {
       discount: "$100 OFF"
     },
     {
-      name: "CarShield",
-      logo: image5,
-      rating: 8.9,
+      name: "Chaiz",
+      logo: image6,
+      rating: 6.8,
       badge: "Transparent",
       badgeColor: "bg-purple-500",
       phoneNumber: "(866) 555-0198",
