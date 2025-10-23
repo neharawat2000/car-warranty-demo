@@ -728,6 +728,7 @@ export default function QuoteForm() {
       addHiddenInput('vehicleModel', formData.vehicleModel);
       addHiddenInput('vehicleMileage', formData.vehicleMileage);
       addHiddenInput('timestamp', formData.timestamp);
+      addHiddenInput('source', formData.source);
 
       // Add form to document and submit
       document.body.appendChild(form);
