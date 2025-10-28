@@ -17,6 +17,8 @@ import image5 from "../assets/image4.svg"
 import image6 from "../assets/ChaizLogo.svg"
 import Image from "next/image"
 import GoogleAnalytics from "@/components/GoogleAnalytics"
+import { useEffect } from "react"
+import { storeCampaignParams } from "@/lib/storeCampaignParams"
 
 export default function Home() {
   const warrantyCompanies = [
@@ -105,6 +107,10 @@ export default function Home() {
       color: "border-purple-200 bg-purple-50"
     }
   ]
+
+  useEffect(() => {
+    storeCampaignParams();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50">

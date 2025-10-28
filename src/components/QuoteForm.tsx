@@ -667,6 +667,8 @@ export default function QuoteForm() {
     e.preventDefault();
     setIsSubmitting(true);
 
+    const campaignData = JSON.parse(localStorage.getItem("campaign_data") || "{}");
+
     try {
       // Prepare form data for both API and form submission
       const formData = {
@@ -679,7 +681,7 @@ export default function QuoteForm() {
         vehicleMake: newFormData.vehicleMake,
         vehicleModel: newFormData.vehicleModel,
         vehicleMileage: newFormData.mileage,
-        source: "Auto Warranty Comparison Site",
+        source: `${campaignData?.utmCampaign ? `Campaign_Id: ${campaignData.utmCampaign}` : "Top 10 Auto Warranty"}`,
         timestamp: new Date().toISOString(),
         ip_address: "unknown",
         user_agent: navigator.userAgent
@@ -737,7 +739,6 @@ export default function QuoteForm() {
       // Wait for both API call and form submission to complete
       const response = await apiPromise;
       const responseData = await response.json();
-      console.log('API Response:', responseData);
 
       // Clean up
       document.body.removeChild(form);
